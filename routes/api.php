@@ -1,54 +1,33 @@
 <?php
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderHistoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
-/*
- * use App\Http\Controllers\PaymentController;
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\OrderHistoryController;
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::middleware(['auth.jwt'])->group(function () {
-    Route::get('products', [ProductController::class, 'index']);
-    Route::post('products', [ProductController::class, 'store']);
-    Route::get('products/{id}', [ProductController::class, 'show']);
-    Route::put('products/{id}', [ProductController::class, 'update']);
-    Route::delete('products/{id}', [ProductController::class, 'destroy']);
-});
-Route::middleware(['auth.jwt'])->group(function () {
-    Route::get('cart', [CartController::class, 'index']);
-    Route::post('cart', [CartController::class, 'store']);
-    Route::delete('cart/{id}', [CartController::class, 'destroy']);
-});
 
-Route::middleware(['auth.jwt'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
+    // Product Routes
+    Route::apiResource('products', ProductController::class);
+
+    // Cart Routes
+    Route::apiResource('cart', CartController::class);
+
+    // Orders
     Route::post('orders', [OrderController::class, 'placeOrder']);
     Route::get('orders', [OrderController::class, 'getUserOrders']);
-});
-Route::middleware(['auth.jwt'])->group(function () {
+    Route::get('orders/{id}', [OrderController::class, 'getOrderDetails']);
+
+    // Payments
     Route::post('payments', [PaymentController::class, 'processPayment']);
-});
+    Route::get('payments/{id}', [PaymentController::class, 'getPaymentDetails']);
 
-
-Route::middleware(['auth.jwt'])->group(function () {
+    // Order History
     Route::get('orders/history', [OrderHistoryController::class, 'index']);
     Route::get('orders/history/{id}', [OrderHistoryController::class, 'show']);
     Route::put('orders/history/{id}/status', [OrderHistoryController::class, 'updateStatus']);
