@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -32,4 +33,9 @@ Route::middleware(['auth.jwt'])->group(function () {
     Route::get('cart', [CartController::class, 'index']);
     Route::post('cart', [CartController::class, 'store']);
     Route::delete('cart/{id}', [CartController::class, 'destroy']);
+});
+
+Route::middleware(['auth.jwt'])->group(function () {
+    Route::post('orders', [OrderController::class, 'placeOrder']);
+    Route::get('orders', [OrderController::class, 'getUserOrders']);
 });
