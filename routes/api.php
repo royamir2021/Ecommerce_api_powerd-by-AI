@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 /*
+ * use App\Http\Controllers\PaymentController;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -38,4 +40,7 @@ Route::middleware(['auth.jwt'])->group(function () {
 Route::middleware(['auth.jwt'])->group(function () {
     Route::post('orders', [OrderController::class, 'placeOrder']);
     Route::get('orders', [OrderController::class, 'getUserOrders']);
+});
+Route::middleware(['auth.jwt'])->group(function () {
+    Route::post('payments', [PaymentController::class, 'processPayment']);
 });
