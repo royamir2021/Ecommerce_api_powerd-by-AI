@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderHistoryController;
+use App\Http\Controllers\AIController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -31,4 +32,6 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::get('orders/history', [OrderHistoryController::class, 'index']);
     Route::get('orders/history/{id}', [OrderHistoryController::class, 'show']);
     Route::put('orders/history/{id}/status', [OrderHistoryController::class, 'updateStatus']);
+    Route::post('products/{id}/generate-description', [AIController::class, 'generateProductDescription'])->middleware('jwt.auth');
+
 });
