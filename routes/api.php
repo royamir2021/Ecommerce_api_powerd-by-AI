@@ -32,6 +32,11 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::get('orders/history', [OrderHistoryController::class, 'index']);
     Route::get('orders/history/{id}', [OrderHistoryController::class, 'show']);
     Route::put('orders/history/{id}/status', [OrderHistoryController::class, 'updateStatus']);
-    Route::post('products/{id}/generate-description', [AIController::class, 'generateProductDescription'])->middleware('jwt.auth');
+
+
+    // AI
+    Route::post('products/{id}/generate-description', [AIController::class, 'generateProductDescription']);
+    Route::post('products/{id}/recommendations', [AIController::class, 'recommendProducts']);
+
 
 });

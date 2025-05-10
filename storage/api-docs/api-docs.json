@@ -11,6 +11,42 @@
         }
     ],
     "paths": {
+        "/api/products/{id}/generate-description": {
+            "post": {
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Generate marketing description for a product using AI",
+                "operationId": "d44df5a280494b85ba0f16cf229f7f4a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "AI-generated product description"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "500": {
+                        "description": "AI processing error"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -630,6 +666,10 @@
         }
     },
     "tags": [
+        {
+            "name": "AI",
+            "description": "AI-Powered Endpoints"
+        },
         {
             "name": "Authentication",
             "description": "User Authentication Endpoints"
