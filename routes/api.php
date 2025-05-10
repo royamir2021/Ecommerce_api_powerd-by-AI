@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PaymentController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderHistoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 /*
  * use App\Http\Controllers\PaymentController;
 |--------------------------------------------------------------------------
@@ -43,4 +45,11 @@ Route::middleware(['auth.jwt'])->group(function () {
 });
 Route::middleware(['auth.jwt'])->group(function () {
     Route::post('payments', [PaymentController::class, 'processPayment']);
+});
+
+
+Route::middleware(['auth.jwt'])->group(function () {
+    Route::get('orders/history', [OrderHistoryController::class, 'index']);
+    Route::get('orders/history/{id}', [OrderHistoryController::class, 'show']);
+    Route::put('orders/history/{id}/status', [OrderHistoryController::class, 'updateStatus']);
 });
